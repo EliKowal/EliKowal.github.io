@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>4 Second Assignment</title>
+    <style type="text/css">
+
+        .big-button {
+            font-size: 100px;
+            width: 250px;
+            height: 150px;
+            border-raidus: 10px;
+            background-color: paleturquoise;
+            outline: thick solid darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <p id="announce">---------</p>
+        <p style="font-size: 30px">STOP at exactly 4 Seconds</p>
+        <button id="button1" type="button" class="btn btn-lg btn-lg big-button" style="font-size: 40px;" onclick="changeText(), toggleTimer()">START</button>
+        <p id="timer"></p>
+
+    </div>
+
+    <script>
+
+    var cachedClick
+    function changeText() {
+        var buttonClick = document.querySelector('button');
+
+        if (buttonClick.textContent === "STOP"){
+            document.getElementById("button1").innerHTML = "START";
+            }
+        else { buttonClick.textContent = "STOP"}
+    }
+
+    var button = document.getElementById("button1");
+    var startTime = 0;
+    var endTime = 0;
+    var totalTime = (endTime - startTime) / 1000;
+    var isTimerRunning = false;
+
+    function toggleTimer() {
+        if (!isTimerRunning) {
+            startTime = new Date().getTime();
+            document.getElementById("timer").innerHTML = "Timer started at " + new Date(startTime).toLocaleTimeString();
+            document.getElementById("button1").innerHTML = "STOP";
+            isTimerRunning = true;
+        }
+        else {
+
+            endTime = new Date().getTime();
+            document.getElementById("timer").innerHTML += "<br>Timer stopped at " + new Date(endTime).toLocaleTimeString();
+            var logTime = (endTime - startTime) / 1000;
+            document.getElementById("timer").innerHTML += "<br>Total time elapsed: " + (logTime) + " seconds";
+            document.getElementById("button1").innerHTML = "START";
+
+            if (logTime == 4) {
+                document.getElementById("button1").style.backgroundColor = "green";
+                document.getElementById("button1").style.color="white";
+                document.getElementById("button1").style.outline = "thick solid darkgreen";
+                document.getElementById("announce").innerHTML = "You made it to 4 seconds! Congratulations!!";
+                document.getElementById("announce").style.color = "green";
+            }
+            else if (logTime >= 3.8 && logTime <= 4.2){
+                document.getElementById("button1").style.backgroundColor = "dodgerblue";
+                document.getElementById("button1").style.color="white";
+                document.getElementById("button1").style.outline = "thick solid blue";
+                document.getElementById("announce").innerHTML = "You're really close!";
+                document.getElementById("announce").style.color = "blue";
+
+            }
+            else if (logTime >= 3.5 && logTime <= 4.5){
+                document.getElementById("button1").style.backgroundColor = "yellow";
+                document.getElementById("button1").style.color="black";
+                document.getElementById("button1").style.outline = "thick solid gold";
+                document.getElementById("announce").innerHTML = "Getting close!";
+                document.getElementById("announce").style.color = "black";
+            }
+            else {
+                document.getElementById("button1").style.backgroundColor = "red";
+                document.getElementById("button1").style.color="white";
+                document.getElementById("button1").style.outline = "thick solid darkred";
+                document.getElementById("announce").innerHTML = "Try again";
+                document.getElementById("announce").style.color = "red";
+            }
+            isTimerRunning = false;
+        }
+    }
+
+
+
+    </script>
+</body>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</html>
