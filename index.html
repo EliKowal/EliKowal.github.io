@@ -51,41 +51,42 @@
         }
         else {
 
-            endTime = new Date().getTime();
-            document.getElementById("timer").innerHTML += "<br>Timer stopped at " + new Date(endTime).toLocaleTimeString();
-            var logTime = (endTime - startTime) / 1000;
-            document.getElementById("timer").innerHTML += "<br>Total time elapsed: " + (logTime) + " seconds";
-            document.getElementById("button1").innerHTML = "START";
+                endTime = new Date().getTime();
+                document.getElementById("timer").innerHTML += "<br>Timer stopped at " + new Date(endTime).toLocaleTimeString();
+                var logTime = (endTime - startTime) / 1000;
+                var logTimeDecimal = logTime.toFixed(2);
+                document.getElementById("timer").innerHTML += "<br>Total time elapsed: " + (logTimeDecimal) + " seconds";
+                document.getElementById("button1").innerHTML = "START";
 
-            if (logTime == 4) {
-                document.getElementById("button1").style.backgroundColor = "green";
-                document.getElementById("button1").style.color="white";
-                document.getElementById("button1").style.outline = "thick solid darkgreen";
-                document.getElementById("announce").innerHTML = "You made it to 4 seconds! Congratulations!!";
-                document.getElementById("announce").style.color = "green";
-            }
-            else if (logTime >= 3.8 && logTime <= 4.2){
-                document.getElementById("button1").style.backgroundColor = "dodgerblue";
-                document.getElementById("button1").style.color="white";
-                document.getElementById("button1").style.outline = "thick solid blue";
-                document.getElementById("announce").innerHTML = "You're really close!";
-                document.getElementById("announce").style.color = "blue";
+                if (logTimeDecimal == 4) {
+                    document.getElementById("button1").style.backgroundColor = "green";
+                    document.getElementById("button1").style.color = "white";
+                    document.getElementById("button1").style.outline = "thick solid darkgreen";
+                    document.getElementById("announce").innerHTML = "You made it to 4 seconds! Congratulations!!";
+                    document.getElementById("announce").style.color = "green";
+                }
+                else if (logTimeDecimal >= 3.8 && logTimeDecimal <= 4.2) {
+                    document.getElementById("button1").style.backgroundColor = "dodgerblue";
+                    document.getElementById("button1").style.color = "white";
+                    document.getElementById("button1").style.outline = "thick solid blue";
+                    document.getElementById("announce").innerHTML = "You're really close!";
+                    document.getElementById("announce").style.color = "blue";
 
-            }
-            else if (logTime >= 3.5 && logTime <= 4.5){
-                document.getElementById("button1").style.backgroundColor = "yellow";
-                document.getElementById("button1").style.color="black";
-                document.getElementById("button1").style.outline = "thick solid gold";
-                document.getElementById("announce").innerHTML = "Getting close!";
-                document.getElementById("announce").style.color = "black";
-            }
-            else {
-                document.getElementById("button1").style.backgroundColor = "red";
-                document.getElementById("button1").style.color="white";
-                document.getElementById("button1").style.outline = "thick solid darkred";
-                document.getElementById("announce").innerHTML = "Try again";
-                document.getElementById("announce").style.color = "red";
-            }
+                }
+                else if (logTimeDecimal >= 3.5 && logTimeDecimal <= 4.5) {
+                    document.getElementById("button1").style.backgroundColor = "yellow";
+                    document.getElementById("button1").style.color = "black";
+                    document.getElementById("button1").style.outline = "thick solid gold";
+                    document.getElementById("announce").innerHTML = "Getting close!";
+                    document.getElementById("announce").style.color = "black";
+                }
+                else {
+                    document.getElementById("button1").style.backgroundColor = "red";
+                    document.getElementById("button1").style.color = "white";
+                    document.getElementById("button1").style.outline = "thick solid darkred";
+                    document.getElementById("announce").innerHTML = "Try again";
+                    document.getElementById("announce").style.color = "red";
+                }
             isTimerRunning = false;
         }
     }
