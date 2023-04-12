@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>4 Second Assignment</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2784/2784459.png">
     <style type="text/css">
 
         .big-button {
@@ -18,6 +19,7 @@
 <body>
     <div class="jumbotron text-center">
         <p id="announce">---------</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/2784/2784459.png" alt="clock" height="90" width="90">
         <p style="font-size: 30px">STOP at exactly 4 Seconds</p>
         <button id="button1" type="button" class="btn btn-lg btn-lg big-button" style="font-size: 40px;" onclick="changeText(), toggleTimer()">START</button>
         <p id="timer"></p>
@@ -26,30 +28,30 @@
 
     <script>
 
-    var cachedClick
-    function changeText() {
-        var buttonClick = document.querySelector('button');
+        var cachedClick
+        function changeText() {
+            var buttonClick = document.querySelector('button');
 
-        if (buttonClick.textContent === "STOP"){
-            document.getElementById("button1").innerHTML = "START";
+            if (buttonClick.textContent === "STOP") {
+                document.getElementById("button1").innerHTML = "START";
             }
-        else { buttonClick.textContent = "STOP"}
-    }
-
-    var button = document.getElementById("button1");
-    var startTime = 0;
-    var endTime = 0;
-    var totalTime = (endTime - startTime) / 1000;
-    var isTimerRunning = false;
-
-    function toggleTimer() {
-        if (!isTimerRunning) {
-            startTime = new Date().getTime();
-            document.getElementById("timer").innerHTML = "Timer started at " + new Date(startTime).toLocaleTimeString();
-            document.getElementById("button1").innerHTML = "STOP";
-            isTimerRunning = true;
+            else { buttonClick.textContent = "STOP" }
         }
-        else {
+
+        var button = document.getElementById("button1");
+        var startTime = 0;
+        var endTime = 0;
+        var totalTime = (endTime - startTime) / 1000;
+        var isTimerRunning = false;
+
+        function toggleTimer() {
+            if (!isTimerRunning) {
+                startTime = new Date().getTime();
+                document.getElementById("timer").innerHTML = "Timer started at " + new Date(startTime).toLocaleTimeString();
+                document.getElementById("button1").innerHTML = "STOP";
+                isTimerRunning = true;
+            }
+            else {
 
                 endTime = new Date().getTime();
                 document.getElementById("timer").innerHTML += "<br>Timer stopped at " + new Date(endTime).toLocaleTimeString();
@@ -87,10 +89,9 @@
                     document.getElementById("announce").innerHTML = "Try again";
                     document.getElementById("announce").style.color = "red";
                 }
-            isTimerRunning = false;
+                isTimerRunning = false;
+            }
         }
-    }
-
 
 
     </script>
