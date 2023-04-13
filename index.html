@@ -4,33 +4,103 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>4 Second Assignment</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2784/2784459.png">
-    <style type="text/css">
+    <style>
 
         .big-button {
             font-size: 100px;
             width: 250px;
             height: 150px;
-            border-raidus: 10px;
             background-color: paleturquoise;
             outline: thick solid darkcyan;
         }
+
+        .attempt-button {
+            font-size: 50px;
+            width: 150px;
+            height: 50px;
+            background-color: lightgrey;
+            outline: thin solid darkgrey;
+        }
+
+        .table {
+            border: 1px solid black;
+            margin: 0 auto;
+        }
     </style>
+
+
 </head>
+
 <body>
     <div class="jumbotron text-center">
         <p id="announce">---------</p>
         <img src="https://cdn-icons-png.flaticon.com/512/2784/2784459.png" alt="clock" height="90" width="90">
         <p style="font-size: 30px">STOP at exactly 4 Seconds</p>
-        <button id="button1" type="button" class="btn btn-lg btn-lg big-button" style="font-size: 40px;" onclick="changeText(), toggleTimer()">START</button>
+
+        <button id="button1" type="button" class="btn btn-lg btn-lg big-button" style="font-size: 40px;" onclick="changeText(); toggleTimer()">START</button>
+        <p></p>
         <p id="timer"></p>
 
     </div>
 
+    <div class="jumbotron text-center">
+        <button type="button" class="btn attempt-button" data-toggle="collapse" data-target="#tableCollapse" aria-expanded="false" aria-controls="tableCollapse">Logged Attempts</button>
+        <p></p>
+        <div class="collapse" id="tableCollapse">
+
+            <table id="results" class="table" style="width:1000px">
+                <thead>
+                    <tr>
+                        <th>Attempt Number</th>
+                        <th>Start Time</th>
+                        <th>Stop Time</th>
+                        <th>Elapsed Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <table id="summary" class="table" style="width:1000px">
+                <thead>
+                    <tr>
+                        <th>Total Attempts</th>
+                        <th>Minimum</th>
+                        <th>Maximum</th>
+                        <th>Average</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="total-attempts"></td>
+                        <td id="min-time"></td>
+                        <td id="max-time"></td>
+                        <td id="avg-time"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+
     <script>
 
-        var cachedClick
+        const fourSeconds = 4.00;
+        let startTime = 0;
+        let endTime = 0;
+        let isTimerRunning = false;
+
+        let attempts = [];
+        let totalAttempts = 0;
+        let minTime = Infinity;
+        let maxTime = -Infinity;
+        let avgTime = 0;
         function changeText() {
-            var buttonClick = document.querySelector('button');
+            let buttonClick = document.querySelector('button');
 
             if (buttonClick.textContent === "STOP") {
                 document.getElementById("button1").innerHTML = "START";
@@ -38,11 +108,6 @@
             else { buttonClick.textContent = "STOP" }
         }
 
-        var button = document.getElementById("button1");
-        var startTime = 0;
-        var endTime = 0;
-        var totalTime = (endTime - startTime) / 1000;
-        var isTimerRunning = false;
 
         function toggleTimer() {
             if (!isTimerRunning) {
@@ -55,19 +120,19 @@
 
                 endTime = new Date().getTime();
                 document.getElementById("timer").innerHTML += "<br>Timer stopped at " + new Date(endTime).toLocaleTimeString();
-                var logTime = (endTime - startTime) / 1000;
-                var logTimeDecimal = logTime.toFixed(2);
+                let logTime = (endTime - startTime) / 1000;
+                let logTimeDecimal = logTime.toFixed(2);
                 document.getElementById("timer").innerHTML += "<br>Total time elapsed: " + (logTimeDecimal) + " seconds";
                 document.getElementById("button1").innerHTML = "START";
 
-                if (logTimeDecimal == 4) {
+                if (Number(logTimeDecimal) === fourSeconds) {
                     document.getElementById("button1").style.backgroundColor = "green";
                     document.getElementById("button1").style.color = "white";
                     document.getElementById("button1").style.outline = "thick solid darkgreen";
                     document.getElementById("announce").innerHTML = "You made it to 4 seconds! Congratulations!!";
                     document.getElementById("announce").style.color = "green";
                 }
-                else if (logTimeDecimal >= 3.8 && logTimeDecimal <= 4.2) {
+                else if (logTimeDecimal >= fourSeconds - 0.2 && logTimeDecimal <= fourSeconds + 0.2) {
                     document.getElementById("button1").style.backgroundColor = "dodgerblue";
                     document.getElementById("button1").style.color = "white";
                     document.getElementById("button1").style.outline = "thick solid blue";
@@ -75,7 +140,7 @@
                     document.getElementById("announce").style.color = "blue";
 
                 }
-                else if (logTimeDecimal >= 3.5 && logTimeDecimal <= 4.5) {
+                else if (logTimeDecimal >= fourSeconds - 0.5 && logTimeDecimal <= fourSeconds + 0.5) {
                     document.getElementById("button1").style.backgroundColor = "yellow";
                     document.getElementById("button1").style.color = "black";
                     document.getElementById("button1").style.outline = "thick solid gold";
@@ -88,11 +153,33 @@
                     document.getElementById("button1").style.outline = "thick solid darkred";
                     document.getElementById("announce").innerHTML = "Try again";
                     document.getElementById("announce").style.color = "red";
+
                 }
+                let tableRef = document.getElementById("results").getElementsByTagName('tbody')[0];
+                let newRow = tableRef.insertRow();
+                let attemptNumCell = newRow.insertCell(0);
+                let startTimeCell = newRow.insertCell(1);
+                let stopTimeCell = newRow.insertCell(2);
+                let elapsedTimeCell = newRow.insertCell(3);
+                attemptNumCell.innerHTML = totalAttempts + 1;
+                startTimeCell.innerHTML = new Date(startTime).toLocaleTimeString();
+                stopTimeCell.innerHTML = new Date(endTime).toLocaleTimeString();
+                elapsedTimeCell.innerHTML = logTimeDecimal + " seconds";
+
+                attempts.push(logTime);
+                totalAttempts++;
+                minTime = Math.min(minTime, logTime);
+                maxTime = Math.max(maxTime, logTime);
+                avgTime = attempts.reduce((acc, val) => acc + val, 0) / totalAttempts;
+                document.getElementById("total-attempts").innerHTML = totalAttempts;
+                document.getElementById("min-time").innerHTML = minTime.toFixed(2);
+                document.getElementById("max-time").innerHTML = maxTime.toFixed(2);
+                document.getElementById("avg-time").innerHTML = avgTime.toFixed(2);
+
+
                 isTimerRunning = false;
             }
         }
-
 
     </script>
 </body>
